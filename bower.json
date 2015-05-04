@@ -1,0 +1,35 @@
+{
+  "name": "mdreader",
+  "version": "0.0.1",
+  "homepage": "https://github.com/ibare/mdreader",
+  "authors": [
+    "ibare <ibare77@gmail.com>"
+  ],
+  "description": "markdown reader",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "markdown",
+    "md",
+    "reader"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "backbone": "~1.1.2",
+    "marked": "~0.3.3",
+    "highlightjs": "~8.5.0",
+    "underscore": "~1.8.3",
+    "handlebars": "~3.0.3",
+    "nprogress": "~0.1.6",
+    "requirejs": "~2.1.17"
+  }
+}

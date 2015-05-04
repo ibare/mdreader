@@ -1,0 +1,17 @@
+.DS_Store
+
+logs
+*.log
+
+pids
+*.pid
+*.seed
+
+lib-cov
+
+.lock-wscript
+.settings
+
+build
+node_modules
+bower_components
