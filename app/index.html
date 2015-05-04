@@ -14,6 +14,29 @@
   <script src="js/require.js" data-main="loader"></script>
 </head>
 <body>
-  <h1>ok</h1>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <img src="imgs/mdreader.png" border="0" width="32">
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#open">Open...</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid main">
+    <div class="row">
+      <div class="col-md-3">
+        <ul class="nav markdown directory">
+        </ul>
+        <ul class="nav markdown files">
+        </ul>
+      </div>
+      <div class="col-md-9 markdown-body"></div>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,0 +1,13 @@
+.navbar-header img {
+  margin-top: 8px; }
+
+.main {
+  margin-top: 70px; }
+
+.nav.markdown a {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 2px; }
+.nav.markdown a:hover {
+  color: red;
+  background-color: white; }

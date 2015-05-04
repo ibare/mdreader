@@ -2,6 +2,7 @@
 var app = require('app');
 var BrowserWindow = require('browser-window');
 var CrashReporter = require('crash-reporter');
+var process = require('process');
 var ipc = require('ipc');
 var dialog = require('dialog');
 var mainWindow = null;
@@ -16,7 +17,7 @@ app.on('window-all-closed', function() {
 
 app.on('ready', function() {
   mainWindow = new BrowserWindow({
-    width: 800,
+    width: 1024,
     height: 700,
     frame: true
   });
@@ -25,5 +26,12 @@ app.on('ready', function() {
 
   mainWindow.on('closed', function() {
     mainWindow = null;
+  });
+});
+
+ipc.on('open', function(event, args) {
+  var dialog = require('dialog');
+  var files = dialog.showOpenDialog(mainWindow, { properties: ['openDirectory'] }, function(filenames) {
+    if(filenames != undefined) event.sender.send('open-dir', filenames[0]);
   });
 });
