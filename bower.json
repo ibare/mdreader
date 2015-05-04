@@ -30,6 +30,7 @@
     "underscore": "~1.8.3",
     "handlebars": "~3.0.3",
     "nprogress": "~0.1.6",
-    "requirejs": "~2.1.17"
+    "requirejs": "~2.1.17",
+    "font-awesome": "~4.3.0"
   }
 }

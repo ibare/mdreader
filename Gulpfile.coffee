@@ -47,13 +47,18 @@ gulp.task 'deploy-library-files', ->
         path.join(config.path.source.bower, 'bootstrap/dist/css/bootstrap.min.css'),
         path.join(config.path.source.bower, 'bootstrap/dist/css/bootstrap-theme.min.css'),
         path.join(config.path.source.bower, 'nprogress/nprogress.css'),
-        path.join(config.path.source.bower, 'highlightjs/styles/sunburst.css')
+        path.join(config.path.source.bower, 'highlightjs/styles/sunburst.css'),
+        path.join(config.path.source.bower, 'font-awesome/css/font-awesome.min.css'),
+        path.join(config.path.source.bower, 'font-awesome/css/font-awesome.css.map')
       ]
     .pipe rename (path) ->
       path.basename = utils.clearFileName path.basename
     .pipe gulp.dest config.path.target.css
 
-  gulp.src path.join config.path.source.bower, 'bootstrap/dist/fonts/*.*'
+  gulp.src [
+        path.join(config.path.source.bower, 'bootstrap/dist/fonts/*.*'),
+        path.join(config.path.source.bower, 'font-awesome/fonts/*.*')
+      ]
     .pipe gulp.dest config.path.target.fonts
 
 gulp.task 'watch', ->

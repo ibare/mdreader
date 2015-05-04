@@ -7,6 +7,7 @@ define([
   var remote = require('remote');
   var ipc = require('ipc');
   var mdfs = remote.require('./mdfs');
+  var current = null;
   var _this = null;
 
   return Backbone.Router.extend({
@@ -33,24 +34,9 @@ define([
     },
 
     load: function(directory) {
-      var match, customRenderer = new Marked.Renderer();
-
-      customRenderer.link = function(href, title, text) {
-        var protocol = /.+(?=:\/)/.exec(href);
-
-        if(protocol == null) {
-          match = /[\w+\-]+(?=\.md)/g.exec(href);
-          return match == null ?
-            Handlebars.compile('<span>{{text}}</span>')({ text: text }) :
-            Handlebars.compile('<a href="#docs/{{link}}">{{text}}</a>')({ link: match[0], text: text });
-        } else {
-          return Handlebars.compile('<a href="#external/{{link}}">{{text}}</a>')({ link: href, text: text });
-        }
-      }
-
       mdfs.seek(directory, function(err, results) {
-        Backbone.$('.markdown.directory')[0].innerHTML = Handlebars.compile('{{#each directory}}<li><a href="#directory/{{path}}">{{name}}</a></li>{{/each}}')({ directory: results.directory });
-        Backbone.$('.markdown.files')[0].innerHTML = Handlebars.compile('{{#each files}}<li><a href="#docs/{{name}}">{{name}}</a></li>{{/each}}')({ files: results.files });
+        Backbone.$('.markdown.directory')[0].innerHTML = Handlebars.compile('{{#each directory}}<li><a href="#directory/{{path}}"><i class="fa fa-folder-o">{{name}}</i></a></li>{{/each}}')({ directory: results.directory });
+        Backbone.$('.markdown.files')[0].innerHTML = Handlebars.compile('{{#each files}}<li><a href="#docs/{{name}}"><i class="fa fa-medium">{{name}}</i></a><ul data-filename="{{name}}"></ul></li>{{/each}}')({ files: results.files });
       });
     },
 
@@ -67,8 +53,30 @@ define([
     },
 
     read: function(name) {
+      var match, customRenderer = new Marked.Renderer();
+
+      current = name;
+
+      customRenderer.link = function(href, title, text) {
+        var protocol = /.+(?=:\/)/.exec(href);
+
+        if(protocol == null) {
+          match = /[\w+\-]+(?=\.md)/g.exec(href);
+          return match == null ?
+            Handlebars.compile('<span>{{text}}</span>')({ text: text }) :
+            Handlebars.compile('<a href="#docs/{{link}}">{{text}}</a>')({ link: match[0], text: text });
+        } else {
+          return Handlebars.compile('<a href="#external/{{link}}">{{text}}</a>')({ link: href, text: text });
+        }
+      };
+
+      customRenderer.heading = function(text, level) {
+        Backbone.$('ul[data-filename="'+current+'"]').append('<li><i class="fa-angle-right">'+text+'</i></li>');
+        return Handlebars.compile('<h{{level}}>{{text}}</h{{level}}>')({ level: level, text: text });
+      };
+
       mdfs.read(name, function(err, body) {
-        Backbone.$('.markdown-body')[0].innerHTML = Marked(body);
+        Backbone.$('.markdown-body')[0].innerHTML = Marked(body, { renderer: customRenderer });
         window.scrollTo(0, 0);
       });
     }
