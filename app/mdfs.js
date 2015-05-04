@@ -25,10 +25,13 @@ var mdfs = {
         list.forEach(function(file) {
           fs.stat(path.resolve(dir, file), function(err, stat) {
             if(stat.isDirectory()) {
-              results.directory.push({
-                path: path.resolve(dir, file),
-                name: file
-              });
+              // Skip hidden file
+              if(!/^\./.test(file)) {
+                results.directory.push({
+                  path: path.resolve(dir, file),
+                  name: file
+                });
+              }
             } else {
               if(/\.md/g.test(file)) {
                 results.files.push({
