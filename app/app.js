@@ -35,8 +35,8 @@ define([
 
     load: function(directory) {
       mdfs.seek(directory, function(err, results) {
-        Backbone.$('.markdown.directory')[0].innerHTML = Handlebars.compile('{{#each directory}}<li><a href="#directory/{{path}}"><i class="fa fa-folder-o">{{name}}</i></a></li>{{/each}}')({ directory: results.directory });
-        Backbone.$('.markdown.files')[0].innerHTML = Handlebars.compile('{{#each files}}<li><a href="#docs/{{name}}"><i class="fa fa-medium">{{name}}</i></a><ul data-filename="{{name}}"></ul></li>{{/each}}')({ files: results.files });
+        Backbone.$('.markdown.directory')[0].innerHTML = Handlebars.compile('{{#each directory}}<li><a href="#directory/{{path}}"><i class="fa fa-folder-o"></i>{{name}}</a></li>{{/each}}')({ directory: results.directory });
+        Backbone.$('.markdown.files')[0].innerHTML = Handlebars.compile('{{#each files}}<li><a href="#docs/{{name}}"><i class="fa fa-medium"></i>{{name}}</a><ul data-filename="{{name}}"></ul></li>{{/each}}')({ files: results.files });
       });
     },
 
@@ -55,6 +55,10 @@ define([
     read: function(name) {
       var match, customRenderer = new Marked.Renderer();
 
+      if(current !== null) {
+        Backbone.$('ul[data-filename="'+current+'"]')[0].innerHTML = '';
+      }
+
       current = name;
 
       customRenderer.link = function(href, title, text) {
@@ -71,7 +75,7 @@ define([
       };
 
       customRenderer.heading = function(text, level) {
-        Backbone.$('ul[data-filename="'+current+'"]').append('<li><i class="fa-angle-right">'+text+'</i></li>');
+        Backbone.$('ul[data-filename="'+current+'"]').append('<li><i class="fa fa-toggle-off"></i>'+text+'</li>');
         return Handlebars.compile('<h{{level}}>{{text}}</h{{level}}>')({ level: level, text: text });
       };
 
