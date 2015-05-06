@@ -1,12 +1,13 @@
 .markdown-body {
-  font-family: Helvetica, arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.6;
+  position: relative;
+  // font-family: Helvetica, arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.4;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 30px;
   background-color: white;
-  padding: 30px;
-  color: #333;
+  color: #444;
 
   a {
     color: #4183C4;
@@ -30,6 +31,7 @@
 
   h1, h2, h3, h4, h5, h6 {
     margin: 20px 0 10px;
+    margin-top: 40px;
     padding: 0;
     font-weight: bold;
     -webkit-font-smoothing: antialiased;
@@ -99,33 +101,38 @@
   }
 
   p, blockquote, ul, ol, dl, li, table, pre {
-    margin: 15px 0;
+    margin: 5px 0;
+    font-size: 0.97em;
+  }
+
+  code {
+    color: #555;
   }
 
   hr {
     background: transparent url("http://tinyurl.com/bq5kskr") repeat-x 0 0;
     border: 0 none;
-    color: #cccccc;
+    color: #eee;
     height: 4px;
     padding: 0;
   }
 
-  body > h2:first-child {
+  h2:first-child {
     margin-top: 0;
     padding-top: 0;
   }
 
-  body > h1:first-child {
+  h1:first-child {
     margin-top: 0;
     padding-top: 0;
   }
 
-  body > h1:first-child + h2 {
+  h1:first-child + h2 {
     margin-top: 0;
     padding-top: 0;
   }
 
-  body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+  h3:first-child, h4:first-child, h5:first-child, h6:first-child {
     margin-top: 0;
     padding-top: 0;
   }
@@ -139,12 +146,16 @@
     margin-top: 0;
   }
 
+  li {
+    white-space: inherit;
+  }
+
   li p.first {
     display: inline-block;
   }
 
   ul, ol {
-    padding-left: 30px;
+    padding-left: 20px;
   }
 
   ul :first-child, ol :first-child {
@@ -209,6 +220,7 @@
   table {
     padding: 0;
   }
+
   table tr {
     border-top: 1px solid #cccccc;
     background-color: white;

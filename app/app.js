@@ -35,8 +35,8 @@ define([
 
     load: function(directory) {
       mdfs.seek(directory, function(err, results) {
-        Backbone.$('.markdown.directory')[0].innerHTML = Handlebars.compile('{{#each directory}}<li><a href="#directory/{{path}}"><i class="fa fa-folder-o"></i>{{name}}</a></li>{{/each}}')({ directory: results.directory });
-        Backbone.$('.markdown.files')[0].innerHTML = Handlebars.compile('{{#each files}}<li><a href="#docs/{{name}}"><i class="fa fa-medium"></i>{{name}}</a><ul data-filename="{{name}}"></ul></li>{{/each}}')({ files: results.files });
+        Backbone.$('.markdown .nav.directory')[0].innerHTML = Handlebars.compile('{{#each directory}}<li><a href="#directory/{{path}}"><i class="fa fa-folder-o"></i>{{name}}</a></li>{{/each}}')({ directory: results.directory });
+        Backbone.$('.markdown .nav.files')[0].innerHTML = Handlebars.compile('{{#each files}}<li><a href="#docs/{{name}}"><i class="fa fa-medium"></i>{{name}}</a><ul data-filename="{{name}}"></ul></li>{{/each}}')({ files: results.files });
       });
     },
 
@@ -53,10 +53,15 @@ define([
     },
 
     read: function(name) {
-      var match, customRenderer = new Marked.Renderer();
+      var previous, customRenderer = new Marked.Renderer();
 
-      if(current !== null) {
-        Backbone.$('ul[data-filename="'+current+'"]')[0].innerHTML = '';
+      if(current != null) {
+        Backbone.$('.markdown .nav a[href="#docs/'+current+'"]').removeClass('active');
+        Backbone.$('.markdown .nav a[href="#docs/'+name+'"]').addClass('active');
+
+        previous = Backbone.$('ul[data-filename="'+current+'"]');
+
+        if(previous != undefined && previous.length > 0) previous[0].innerHTML = '';
       }
 
       current = name;
@@ -75,12 +80,18 @@ define([
       };
 
       customRenderer.heading = function(text, level) {
-        Backbone.$('ul[data-filename="'+current+'"]').append('<li><i class="fa fa-toggle-off"></i>'+text+'</li>');
-        return Handlebars.compile('<h{{level}}>{{text}}</h{{level}}>')({ level: level, text: text });
+        var escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+
+        if(level == 2) {
+          Backbone.$('ul[data-filename="'+current+'"]').append('<li><i class="fa fa-toggle-off"></i>'+escapedText+'</li>');
+        }
+
+        return Handlebars.compile('<h{{level}}>{{text}}</h{{level}}>')({ level: level, text: escapedText });
       };
 
       mdfs.read(name, function(err, body) {
         Backbone.$('.markdown-body')[0].innerHTML = Marked(body, { renderer: customRenderer });
+
         window.scrollTo(0, 0);
       });
     }

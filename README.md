@@ -1,4 +1,4 @@
 Markdown Reader
 =====
 
-![Screenshot](./screenshot.png)
+![Screenshot](screenshot.png)
